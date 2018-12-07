@@ -1,28 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 
+public class Prospector : MonoBehaviour
+{
+    static public Prospector S;
 
-public class Prospector : MonoBehaviour {
+    [Header("Set in Inspector")]
+    public TextAsset deckXML;
 
-	static public Prospector 	S;
+    [Header("Set Dynamically")]
+    public Deck deck;
 
-	[Header("Set in Inspector")]
-	public TextAsset			deckXML;
+    void Awake()
+    {
+        S = this;
+    }
 
-
-	[Header("Set Dynamically")]
-	public Deck					deck;
-
-	void Awake(){
-		S = this;
-	}
-
-	void Start() {
-		deck = GetComponent<Deck> ();
-		deck.InitDeck (deckXML.text);
-	}
+    // Use this for initialization
+    void Start()
+    {
+        deck = GetComponent<Deck>();
+        deck.InitDeck(deckXML.text);
+    }
 
 }
