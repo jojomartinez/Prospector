@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour {
+public class Card : MonoBehaviour
+{
+}
 
     [System.Serializable]
 
@@ -23,4 +25,4 @@ public class Card : MonoBehaviour {
 
     }
         
-}
+
