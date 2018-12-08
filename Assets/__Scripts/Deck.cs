@@ -35,6 +35,7 @@ public class Deck : MonoBehaviour {
 
     public void InitDeck(string deckXMLText)
     {
+        Debug.Log("reading the deck");
         ReadDeck(deckXMLText);
     }
 
@@ -48,7 +49,7 @@ public class Deck : MonoBehaviour {
         s += "x=" + xmlr.xml["xml"][0]["decorator"][0].att("x");
         s += "y=" + xmlr.xml["xml"][0]["decorator"][0].att("y");
         s += "scale=" + xmlr.xml["xml"][0]["decorator"][0].att("scale");
-       // print(s);
+        print(s);
 
         decorators = new List<Decorator>();
 
