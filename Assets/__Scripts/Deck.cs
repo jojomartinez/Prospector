@@ -36,7 +36,23 @@ public class Deck : MonoBehaviour {
     public void InitDeck(string deckXMLText)
     {
         Debug.Log("reading the deck");
+
+        if (GameObject.Find("_Deck")== null)
+        {
+            GameObject anchorGO = new GameObject("_Deck");
+            deckAnchor = anchorGO.transform;
+        }
+
+        dictSuits = new Dictionary<string, Sprite>()
+        {
+            {"C", suitClub },
+            {"D", suitDiamond },
+            {"H", suitHeart },
+            {"S", suitSpade },
+        };
+
         ReadDeck(deckXMLText);
+        MakeCards();
     }
 
     public void ReadDeck(string deckXMLText)
@@ -103,6 +119,56 @@ public class Deck : MonoBehaviour {
             }
             cardDefs.Add(cDef);
         }
+    }
+
+    public CardDefinition GetCardDefinitionByRank(int rnk)
+    {
+        foreach (CardDefinition cd in cardDefs)
+        {
+            if (cd.rank == rnk)
+            {
+                return (cd);
+            }
+        }
+        return (null);
+    }
+    public void MakeCards()
+    {
+        cardNames = new List<string>();
+        string[] letters = new string[] { "C", "D", "H", "S" };
+        foreach (string s in letters)
+        {
+            for (int i =0; i<13; i++)
+            {
+                cardNames.Add(s + (i + 1));
+            }
+        }
+        cards = new List<Card>();
+
+        for (int i= 0; i<cardNames.Count;i++)
+        {
+            cards.Add(MakeCards(i));
+        }
+    }
+    private Card MakeCard(int cNum)
+    {
+        GameObject cgo = Instantiate(prefabCard) as GameObject;
+        cgo.transform.parent = deckAnchor;
+        Card card = cgo.GetComponent<Card>();
+
+        cgo.transform.localPosition = new Vector3((cNum % 13) * 3, cNum / 13 * 4, 0);
+
+        card.name = cardNames[cNum];
+        card.suit = card.name[0].ToString();
+        card.rank = int.Parse(card.name.Substring(1));
+            if (card.suit == "D" || card.suit == "H")
+        {
+            card.colS = "Red";
+            card.color = Color.red;
+        }
+        card.def = GetCardDefinitionByRank(card.rank);
+        AddDecorators(card);
+        return card;
     }
 }
 
